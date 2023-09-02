@@ -1,2 +1,0 @@
-document.querySelector(".form").addEventListener("submit",(function(e){e.preventDefault();for(var o=e.target,t=(Number(o.delay.value),Number(o.step.value)),n=1;n<=o.amount.value;n+=1)(void Math.random()).then((function(e){var o=e.position,t=e.delay;console.log("✅ Fulfilled promise ".concat(o," in ").concat(t,"ms"))})).catch((function(e){var o=e.position,t=e.delay;console.log("❌ Rejected promise ".concat(o," in ").concat(t,"ms"))})),t;o.reset()}));
-//# sourceMappingURL=03-promises.33094cdc.js.map
