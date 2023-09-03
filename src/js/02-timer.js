@@ -17,10 +17,10 @@ function convertMs(ms) {
   const hour = minute * 60;
   const day = hour * 24;
 
-  const days = Math.floor(ms / day);
-  const hours = Math.floor((ms % day) / hour);
-  const minutes = Math.floor(((ms % day) % hour) / minute);
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  const days = Math.max(Math.floor(ms / day), 0);
+  const hours = Math.max(Math.floor((ms % day) / hour), 0);
+  const minutes = Math.max(Math.floor(((ms % day) % hour) / minute), 0);
+  const seconds = Math.max(Math.floor((((ms % day) % hour) % minute) / second), 0);
 
   return { days, hours, minutes, seconds };
 }
@@ -50,6 +50,7 @@ startButton.addEventListener('click', () => {
       clearInterval(timer);
       Notiflix.Notify.failure('Your time has flown by!');
       updateTimerDisplay(0, 0, 0, 0); // Устанавливаем отображение времени в 00:00:00
+      startButton.disabled = true;
     } else {
       const { days, hours, minutes, seconds } = convertMs(remainingTimeMs);
       updateTimerDisplay(days, hours, minutes, seconds);
@@ -70,6 +71,7 @@ const options = {
       Notiflix.Notify.success('Таймер начат!');
       startButton.disabled = false;
       selectedDate = selectedDates[0].getTime();
+      addLeadingZero();
     }
   },
 };
