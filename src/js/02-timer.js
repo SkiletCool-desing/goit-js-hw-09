@@ -40,14 +40,19 @@ function addLeadingZero() {
 
 startButton.addEventListener('click', () => {
   Notiflix.Notify.success('The countdown has begun!');
-  const timer = setInterval(() => {
-    startButton.disabled = true;
-    addLeadingZero();
+  startButton.disabled = true;
 
-    const remainingTimeMs = selectedDate - new Date().getTime();
+  const timer = setInterval(() => {
+    const currentTime = new Date().getTime();
+    const remainingTimeMs = selectedDate - currentTime;
+
     if (remainingTimeMs <= 0) {
       clearInterval(timer);
       Notiflix.Notify.failure('Your time has flown by!');
+      updateTimerDisplay(0, 0, 0, 0); // Устанавливаем отображение времени в 00:00:00
+    } else {
+      const { days, hours, minutes, seconds } = convertMs(remainingTimeMs);
+      updateTimerDisplay(days, hours, minutes, seconds);
     }
   }, 1000);
 });
@@ -59,10 +64,10 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0] < options.defaultDate) {
-      Notiflix.Notify.warning('Виберіть дату у майбутньому!');
+      Notiflix.Notify.warning('Выберите дату в будущем!');
       startButton.disabled = true;
     } else {
-      Notiflix.Notify.success('Таймер розпочато!');
+      Notiflix.Notify.success('Таймер начат!');
       startButton.disabled = false;
       selectedDate = selectedDates[0].getTime();
     }
